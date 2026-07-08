@@ -1,0 +1,446 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="최윤식 박사 GitHub 171개 전수조사 결과 — 팀 공유용 허브">
+<title>최윤식 박사 GitHub 전수조사 — 팀 공유</title>
+</head>
+<body>
+<style>
+  :root{
+    --bg:#EEF2F8;
+    --surface:#FFFFFF;
+    --surface-2:#F6F9FE;
+    --ink:#161E2E;
+    --sub:#5A6474;
+    --faint:#8A93A3;
+    --line:#E4E9F2;
+    --accent:#2C6FF6;
+    --accent-ink:#1B57D6;
+    --accent-soft:#E7F0FE;
+    --good:#0FA968;
+    --good-soft:#E4F6EE;
+    --neutral:#7A8493;
+    --neutral-soft:#EDF0F4;
+    --gold:#B7791F;
+    --gold-soft:#FBF1DC;
+    --shadow:0 1px 2px rgba(21,30,46,.04), 0 8px 24px rgba(21,30,46,.06);
+    --shadow-lg:0 2px 6px rgba(21,30,46,.06), 0 24px 60px rgba(21,30,46,.14);
+    --r:22px;
+    --font:'Apple SD Gothic Neo','Malgun Gothic','Pretendard',system-ui,-apple-system,'Segoe UI',sans-serif;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{
+      --bg:#0D1016;--surface:#161B24;--surface-2:#1C222D;--ink:#EAEEF5;--sub:#A2ACBC;--faint:#6E7889;
+      --line:#28303C;--accent:#5B93FF;--accent-ink:#8FB6FF;--accent-soft:#18233A;
+      --good:#3BD68A;--good-soft:#14271E;--neutral:#9AA4B3;--neutral-soft:#222833;
+      --gold:#E0B457;--gold-soft:#2A2313;
+      --shadow:0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.35);
+      --shadow-lg:0 2px 6px rgba(0,0,0,.4), 0 24px 60px rgba(0,0,0,.55);
+    }
+  }
+  :root[data-theme="light"]{
+    --bg:#EEF2F8;--surface:#FFFFFF;--surface-2:#F6F9FE;--ink:#161E2E;--sub:#5A6474;--faint:#8A93A3;
+    --line:#E4E9F2;--accent:#2C6FF6;--accent-ink:#1B57D6;--accent-soft:#E7F0FE;
+    --good:#0FA968;--good-soft:#E4F6EE;--neutral:#7A8493;--neutral-soft:#EDF0F4;--gold:#B7791F;--gold-soft:#FBF1DC;
+    --shadow:0 1px 2px rgba(21,30,46,.04), 0 8px 24px rgba(21,30,46,.06);
+    --shadow-lg:0 2px 6px rgba(21,30,46,.06), 0 24px 60px rgba(21,30,46,.14);
+  }
+  :root[data-theme="dark"]{
+    --bg:#0D1016;--surface:#161B24;--surface-2:#1C222D;--ink:#EAEEF5;--sub:#A2ACBC;--faint:#6E7889;
+    --line:#28303C;--accent:#5B93FF;--accent-ink:#8FB6FF;--accent-soft:#18233A;
+    --good:#3BD68A;--good-soft:#14271E;--neutral:#9AA4B3;--neutral-soft:#222833;--gold:#E0B457;--gold-soft:#2A2313;
+    --shadow:0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.35);
+    --shadow-lg:0 2px 6px rgba(0,0,0,.4), 0 24px 60px rgba(0,0,0,.55);
+  }
+
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);line-height:1.6;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 22px}
+  h1,h2,h3{margin:0;text-wrap:balance;letter-spacing:-.02em;font-weight:800}
+
+  /* HERO */
+  .hero{padding:64px 0 30px}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--line);
+    color:var(--sub);font-size:12.5px;font-weight:700;padding:7px 14px;border-radius:999px;box-shadow:var(--shadow);letter-spacing:.01em}
+  .dot{width:8px;height:8px;border-radius:50%;background:var(--good);box-shadow:0 0 0 4px var(--good-soft)}
+  .hero h1{font-size:clamp(30px,5.2vw,50px);line-height:1.12;margin:20px 0 14px}
+  .hero h1 .hl{color:var(--accent)}
+  .hero p{font-size:clamp(15.5px,2vw,18px);color:var(--sub);max-width:60ch;margin:0}
+
+  /* STATS */
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:34px 0 8px}
+  .stat{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:20px 20px 18px;box-shadow:var(--shadow)}
+  .stat .n{font-size:clamp(26px,4vw,36px);font-weight:800;letter-spacing:-.03em;font-variant-numeric:tabular-nums;color:var(--ink)}
+  .stat .n small{font-size:.5em;font-weight:700;color:var(--accent);margin-left:2px}
+  .stat .l{font-size:13px;color:var(--sub);margin-top:2px;font-weight:600}
+
+  /* SECTION HEAD */
+  .sec{padding:40px 0 8px}
+  .sec-h{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:18px}
+  .sec-h h2{font-size:clamp(20px,3vw,26px)}
+  .sec-h p{margin:6px 0 0;color:var(--sub);font-size:14px}
+  .legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12.5px;color:var(--sub);font-weight:600}
+  .legend span{display:inline-flex;align-items:center;gap:6px}
+  .lg-dot{width:9px;height:9px;border-radius:3px}
+
+  /* GRID */
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .card{position:relative;text-align:left;width:100%;background:var(--surface);border:1px solid var(--line);
+    border-radius:var(--r);padding:22px;box-shadow:var(--shadow);cursor:pointer;font-family:inherit;color:inherit;
+    transition:transform .5s cubic-bezier(.32,.72,0,1),box-shadow .5s cubic-bezier(.32,.72,0,1),border-color .3s;
+    display:flex;flex-direction:column;gap:13px;min-height:190px}
+  .card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);border-color:color-mix(in srgb,var(--accent) 35%,var(--line))}
+  .card:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+  .card.wide{grid-column:span 2}
+  .card-top{display:flex;align-items:center;gap:12px}
+  .tile{width:46px;height:46px;flex:none;border-radius:14px;display:grid;place-items:center;font-size:23px;
+    background:var(--accent-soft);box-shadow:inset 0 1px 1px rgba(255,255,255,.25)}
+  .cnum{font-size:11.5px;font-weight:800;color:var(--faint);letter-spacing:.08em;font-variant-numeric:tabular-nums}
+  .card h3{font-size:17.5px;line-height:1.28;margin-top:2px}
+  .card .one{color:var(--sub);font-size:14px;margin:0}
+  .card.wide .one{font-size:14.5px}
+  .chips{display:flex;gap:7px;flex-wrap:wrap;margin-top:auto}
+  .chip{font-size:11.5px;font-weight:700;padding:4px 10px;border-radius:999px;letter-spacing:.01em}
+  .chip.direct{background:var(--accent-soft);color:var(--accent-ink)}
+  .chip.use{background:var(--good-soft);color:var(--good)}
+  .chip.ref{background:var(--neutral-soft);color:var(--neutral)}
+  .badge{position:absolute;top:16px;right:16px;font-size:11px;font-weight:800;color:var(--gold);
+    background:var(--gold-soft);padding:4px 10px;border-radius:999px;letter-spacing:.02em}
+  .more{display:inline-flex;align-items:center;gap:5px;color:var(--accent);font-size:13px;font-weight:700}
+  .more svg{transition:transform .4s cubic-bezier(.32,.72,0,1)}
+  .card:hover .more svg{transform:translateX(3px)}
+
+  /* DEEP LINKS */
+  .links{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+  .link{display:flex;gap:16px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);
+    border-radius:var(--r);padding:22px;box-shadow:var(--shadow);text-decoration:none;color:inherit;
+    transition:transform .5s cubic-bezier(.32,.72,0,1),box-shadow .5s cubic-bezier(.32,.72,0,1)}
+  .link:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+  .link:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+  .link .tile{background:var(--surface-2)}
+  .link h3{font-size:16px;display:flex;align-items:center;gap:8px}
+  .link p{margin:5px 0 0;color:var(--sub);font-size:13.5px}
+  .link .arr{margin-left:auto;color:var(--faint);flex:none}
+
+  /* MODAL */
+  .overlay{position:fixed;inset:0;background:rgba(16,22,34,.55);backdrop-filter:blur(6px);
+    display:flex;align-items:flex-end;justify-content:center;padding:0;opacity:0;pointer-events:none;
+    transition:opacity .35s ease;z-index:100}
+  .overlay.open{opacity:1;pointer-events:auto}
+  @media (min-width:720px){.overlay{align-items:center;padding:24px}}
+  .modal{background:var(--surface);width:100%;max-width:660px;max-height:92vh;overflow-y:auto;
+    border-radius:26px 26px 0 0;box-shadow:var(--shadow-lg);transform:translateY(40px);
+    transition:transform .45s cubic-bezier(.32,.72,0,1);border:1px solid var(--line)}
+  @media (min-width:720px){.modal{border-radius:28px;transform:translateY(24px) scale(.98)}}
+  .overlay.open .modal{transform:none}
+  .m-head{position:sticky;top:0;background:var(--surface);padding:24px 26px 16px;border-bottom:1px solid var(--line);
+    display:flex;gap:14px;align-items:flex-start;border-radius:26px 26px 0 0}
+  .m-head .tile{width:52px;height:52px;font-size:26px}
+  .m-head .cnum{margin-bottom:3px;display:block}
+  .m-head h3{font-size:20px;line-height:1.25}
+  .m-close{margin-left:auto;flex:none;width:38px;height:38px;border-radius:12px;border:1px solid var(--line);
+    background:var(--surface-2);color:var(--sub);font-size:18px;cursor:pointer;display:grid;place-items:center;
+    transition:background .2s}
+  .m-close:hover{background:var(--neutral-soft)}
+  .m-close:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+  .m-body{padding:20px 26px 28px;display:flex;flex-direction:column;gap:16px}
+  .panel{background:var(--surface-2);border:1px solid var(--line);border-radius:16px;padding:16px 18px}
+  .panel .k{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:800;color:var(--accent-ink);
+    letter-spacing:.03em;text-transform:uppercase;margin-bottom:7px}
+  .panel .k .ic{font-size:14px}
+  .panel.why .k{color:var(--good)}
+  .panel p{margin:0;font-size:14.5px;color:var(--ink);line-height:1.62}
+  .panel.why{background:var(--good-soft);border-color:color-mix(in srgb,var(--good) 22%,var(--line))}
+  .repos{display:flex;flex-wrap:wrap;gap:7px}
+  .repo{font-size:12px;font-weight:600;font-family:ui-monospace,'SF Mono',Menlo,monospace;color:var(--sub);
+    background:var(--surface-2);border:1px solid var(--line);padding:4px 9px;border-radius:8px}
+  .m-chips{display:flex;gap:7px;flex-wrap:wrap}
+
+  footer{padding:52px 0 70px;color:var(--faint);font-size:13px;text-align:center;line-height:1.7}
+  footer b{color:var(--sub)}
+
+  /* theme toggle */
+  .toggle{position:fixed;top:18px;right:18px;z-index:60;width:42px;height:42px;border-radius:13px;
+    border:1px solid var(--line);background:var(--surface);color:var(--sub);cursor:pointer;box-shadow:var(--shadow);
+    display:grid;place-items:center;font-size:17px}
+  .toggle:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+
+  @media (max-width:820px){.grid{grid-template-columns:repeat(2,1fr)}.card.wide{grid-column:span 2}.stats{grid-template-columns:repeat(2,1fr)}}
+  @media (max-width:560px){.grid,.links{grid-template-columns:1fr}.card.wide{grid-column:span 1}.hero{padding:44px 0 20px}}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<button class="toggle" id="themeBtn" aria-label="라이트/다크 전환">◐</button>
+
+<div class="wrap">
+  <header class="hero">
+    <span class="eyebrow"><span class="dot"></span>전수조사 완결 · 2026-07-08</span>
+    <h1>최윤식 박사 GitHub <span class="hl">171개</span>,<br>하나도 빼지 않고 다 뜯어봤습니다.</h1>
+    <p>박사님이 공개한 저장소 171개를 13개 묶음으로 나눠 코드·프롬프트·기술까지 정독하고, 니가교수에 <b>바로 쓸 것 / 특정 팀원에게 유용한 것 / 참고할 것</b>으로 분류했습니다. 카드를 누르면 각 묶음이 무엇이고 왜 우리에게 중요한지 열립니다.</p>
+
+    <div class="stats">
+      <div class="stat"><div class="n">171<small>개</small></div><div class="l">전수 분석한 저장소</div></div>
+      <div class="stat"><div class="n">13<small>묶음</small></div><div class="l">클러스터 분석노트</div></div>
+      <div class="stat"><div class="n">67<small>종</small></div><div class="l">코드·프롬프트 실물 내장</div></div>
+      <div class="stat"><div class="n">4<small>종</small></div><div class="l">바로 탑재 가능 팩</div></div>
+    </div>
+  </header>
+
+  <section class="sec">
+    <div class="sec-h">
+      <div>
+        <h2>13개 묶음 살펴보기</h2>
+        <p>카드를 누르면 상세가 열립니다. ★ 표시는 대표가 직접 지목했거나 우리에게 가장 중요한 묶음입니다.</p>
+      </div>
+      <div class="legend">
+        <span><span class="lg-dot" style="background:var(--accent)"></span>직결 · 바로 씀</span>
+        <span><span class="lg-dot" style="background:var(--good)"></span>유용 · 특정 팀원</span>
+        <span><span class="lg-dot" style="background:var(--neutral)"></span>참고</span>
+      </div>
+    </div>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <section class="sec">
+    <div class="sec-h">
+      <div>
+        <h2>더 깊이 보기</h2>
+        <p>이미 만들어 둔 상세 자료들입니다. 팀 온보딩은 여기서 시작하세요.</p>
+      </div>
+    </div>
+    <div class="links">
+      <a class="link" href="https://claude.ai/code/artifact/3d3cda0c-830a-459c-a111-5db02d8574b5" target="_blank" rel="noopener">
+        <div class="tile">🎓</div>
+        <div><h3>팀 온보딩 발표덱</h3><p>AI를 처음 접하는 팀원도 따라오는 17슬라이드. 개념부터 실제 설치까지.</p></div>
+        <div class="arr">↗</div>
+      </a>
+      <a class="link" href="https://claude.ai/code/artifact/b9e04d3a-0151-4a17-93d8-dc447c0505f2" target="_blank" rel="noopener">
+        <div class="tile">🗺️</div>
+        <div><h3>도입기술 지도</h3><p>클러스터 0~6 기술을 카드로. 누르면 뜻·비유·장점·우리 활용이 모달로.</p></div>
+        <div class="arr">↗</div>
+      </a>
+      <a class="link" href="https://claude.ai/code/artifact/354824d8-9535-4d5b-bd04-200175b2b69d" target="_blank" rel="noopener">
+        <div class="tile">🔐</div>
+        <div><h3>프롬프트·스킬 금고</h3><p>KoGEO·TradingAgents 등 실제 프롬프트 원문을 버튼 하나로 복사.</p></div>
+        <div class="arr">↗</div>
+      </a>
+      <a class="link" href="https://claude.ai/code/artifact/ca0de509-8c72-48d0-9477-78e715b1c322" target="_blank" rel="noopener">
+        <div class="tile">🎤</div>
+        <div><h3>대표 발표 대본</h3><p>비유 중심 발표 대사 + 슬라이드별 설치 명령. 팀덱과 나란히 띄워 발표.</p></div>
+        <div class="arr">↗</div>
+      </a>
+    </div>
+  </section>
+
+  <footer>
+    <b>URP · 니가교수</b> — 최윤식 박사 GitHub 전수조사 트랙 A 완결<br>
+    171개 전량 계정처리 · 클러스터 0~12 분석노트 + 프롬프트·코드 금고 · 2026-07-08
+  </footer>
+</div>
+
+<div class="overlay" id="overlay" role="dialog" aria-modal="true" aria-labelledby="mTitle">
+  <div class="modal" id="modal">
+    <div class="m-head">
+      <div class="tile" id="mTile">📦</div>
+      <div><span class="cnum" id="mNum">클러스터 00</span><h3 id="mTitle">제목</h3></div>
+      <button class="m-close" id="mClose" aria-label="닫기">✕</button>
+    </div>
+    <div class="m-body" id="mBody"></div>
+  </div>
+</div>
+
+<script>
+const CLUSTERS = [
+  {num:"클러스터 00", icon:"🧬", star:true, wide:true, tag:"direct",
+   title:"부모 프레임워크 · 하네스 공장",
+   one:"어떤 분야든 에이전트 워크플로우로 찍어내는 만능 프레임워크(부모)와, 그걸로 만든 박사논문 자동화 완성품(자식).",
+   what:"AgenticWorkflow는 아이디어 한 줄을 넣으면 기획·검증·안전·기억이 유전되는 46,000줄짜리 프레임워크입니다. Dissertation-Simulator는 그 DNA로 박사논문 전 과정을 58개 에이전트·211스텝으로 자동화한 실제 완성품입니다.",
+   comp:"창업 아이디어 한 줄을 넣으면 원칙이 유전되는 제품을 찍어내는 '줄기세포' 공장.",
+   str:"절대기준 3개(품질 최우선·학생상태 단일 관리·변경 프로토콜), 4계층 품질보장, 그리고 하이브리드 채점(코드로 계산할 건 코드가, 판단할 건 LLM이) 구조.",
+   why:"니가교수 채점의 정석입니다. 정답·수식형식은 코드로, 과정·개념 오류는 LLM으로 분리해 채점하면 오채점이 구조적으로 줄어듭니다. 우리 Hermes 하네스의 세계 최고 참고서.",
+   repos:["AgenticWorkflow","Dissertation-Simulator"], cls:[["direct","직결"]]},
+
+  {num:"클러스터 01", icon:"👨‍👩‍👧", tag:"direct",
+   title:"AWF 도메인 자식 7종 (박사님 원본)",
+   one:"같은 엔진, 다른 분야로 박사님이 찍어낸 앱 7종 — SaaS 자동제작·교회행정·설교연구·자서전·바둑앱·세계뉴스·미래스캔.",
+   what:"부모 프레임워크의 DNA로 7개 도메인의 완성 앱을 만든 사례 모음입니다. 도메인은 우리와 멀어도 그 안의 재사용 기술은 대부분 직결입니다.",
+   comp:"같은 엔진으로 만든 서로 다른 완성차 7대.",
+   str:"근거 없는 단정을 말하기 전에 막는 Hallucination Firewall, 모든 주장에 출처 딱지를 붙이는 GroundedClaim, 충돌을 원천차단하는 단독쓰기 설계, 한국어 자연어 명령 매핑.",
+   why:"'근거 있는 진단, 단정 금지'가 우리 채점·학부모 리포트의 핵심인데, 그걸 코드로 강제하는 완성 사례입니다. arXiv 학술스캔은 미국 교육과정 리서치에 응용.",
+   repos:["SaaS-AWF","Church-Admin","Sermon-Assistant","Writingbook","baduk-AWF","GlobalNews","EnvironmentScan"], cls:[["direct","기술 직결"],["ref","도메인 무관"]]},
+
+  {num:"클러스터 01·B", icon:"⚖️", star:true, tag:"direct",
+   title:"원본 스킬패키지 3종 — 결정론 엔진",
+   one:"책·방법론을 통째로 Claude 스킬로 구현한 박사님 원본 3종. 여기서 채점 신뢰 인프라의 완성 청사진이 나옵니다.",
+   what:"목회계획 99스킬·비전코칭 65폴더·설교 21스킬. 도메인이 아니라 세 패키지가 공유하는 '결정론 하네스 아키텍처'가 핵심입니다.",
+   comp:"계산기가 대신 채점하고, 감사관이 '이 숫자 추정인데 사실인 척했네'를 잡아내는 회계 시스템. 사람이 아니라 AI를 검증합니다.",
+   str:"fidelity-guard 이중화(추정을 사실로 둔갑시키는 아첨과 점수를 낙인 찍는 정죄를 양방향 차단, 정직성 위반은 경고가 아니라 에러), 점수를 LLM이 아닌 파이썬 엔진이 계산하는 결정론 환원, 7종 심리진단 스킬.",
+   why:"우리 채점과 MEUS 진단의 신뢰 인프라 최고 참고서입니다. 점수를 엔진이 계산하면 할루시네이션이 원천 차단됩니다. 학부모 리포트가 아첨도 낙인도 못 하게 만드는 게이트.",
+   repos:["church-plan-skills","vision-coaching-skills","sermon-skills"], cls:[["direct","직결 최상"]]},
+
+  {num:"클러스터 02", icon:"🏢", star:true, wide:true, tag:"direct",
+   title:"오케스트레이션 · 멀티에이전트 11종",
+   one:"AI 에이전트 팀을 '회사처럼' 지휘하는 방법 11종. 대표가 가장 관심 있는 '우리 시스템을 어떻게 지휘하나'의 정중앙.",
+   what:"지금 URP엔 어푸+6페르소나(직원)와 워크스페이스 포털(사무실)이 이미 있습니다. 이 묶음은 그 위에 얹을 '지휘 계층'을 줍니다.",
+   comp:"직원들 위에 얹는 지휘 계층 — 조직도·월 예산·거버넌스가 있는 회사 운영판.",
+   str:"paperclip(회사 목표→조직도→에이전트별 예산한도→대시보드), agentinc(역할을 번들로 묶어 git 공유), harness(팀 설계 6패턴), 그리고 확신이 낮으면 알아서 멈추고 물어보는 SmartPause.",
+   why:"워크스페이스 포털을 '회사 운영판'으로 진화시키는 그림입니다. 어푸=중앙 분배자, 채점=생산자·검토자로 매핑. 요나단의 '질문 주도형' 상호작용도 여기서 정석을 얻습니다.",
+   repos:["paperclip","cc-company","harness","oh-my-claudecode","superpowers","ouroboros","Auto-Claude","gstack","agents","ruler","AutoResearchClaw"], cls:[["direct","직결"]]},
+
+  {num:"클러스터 03", icon:"🧠", tag:"direct",
+   title:"기억 · 컨텍스트 9종",
+   one:"세션을 넘어 기억을 남기고 긴 맥락을 다루는 도구 9종. 요나단 메모리와 우리 옵시디언 vault의 쌍둥이.",
+   what:"요나단의 기억 시스템과 우리 LLM Wiki가 정확히 겹치는 묶음입니다. 특히 notebooklm-llm-wiki-flow는 우리가 이미 쓰는 방식의 쌍둥이입니다.",
+   comp:"퇴근 전 오늘 한 일을 알아서 요약해 서랍에 넣고, 다음날 필요한 것만 꺼내주는 비서.",
+   str:"claude-mem(자동 훅 + 벡터검색으로 기억 자동화), 코드베이스 지식그래프(토큰 10배 절약하며 코드 탐색), storm(위키피디아식 글 자동 저술).",
+   why:"요나단 메모리를 수동에서 자동으로 진화시키고, 미국 커리큘럼·개념 위키를 자동 생성하며, vault에 페이지 유형과 실행 추적을 흡수합니다.",
+   repos:["notebooklm-llm-wiki-flow","claude-mem","codebase-memory-mcp","storm","fast-rlm","notebooklm-3종","show-me-the-context"], cls:[["direct","직결"]]},
+
+  {num:"클러스터 04", icon:"🔧", tag:"direct",
+   title:"코드 인텔리전스 · MCP 6종",
+   one:"에이전트가 코드·웹·문서를 더 똑똑하고 싸게 다루게 하는 도구층. github-fetcher는 박사님 원본.",
+   what:"에이전트의 '더 똑똑하고 싼' 도구 6종. github-fetcher-mcp가 박사님 원본이고, 나머지는 박사님이 눈여겨봐 담아둔 유명 도구들입니다.",
+   comp:"에이전트 눈앞에 요약 필터를 끼우는 안경.",
+   str:"rtk(셸 출력 토큰을 60~90% 절감, 우리 Hermes를 공식 지원), github-fetcher-mcp(지금 이 전수조사를 자동화한 박사님 원본), serena(심볼 단위 리팩터링), langconnect(문서 벡터검색 웹UI).",
+   why:"어푸·비서단 6명이 24시간 도는데, rtk를 끼우면 잡음 출력이 자동 요약돼 API 비용이 통째로 줄어듭니다. 지금 당장 돈 아끼는 도구.",
+   repos:["rtk","github-fetcher-mcp","serena","langconnect","browser-use","playwright-mcp"], cls:[["direct","직결"],["use","유용"]]},
+
+  {num:"클러스터 05", icon:"🧩", tag:"direct",
+   title:"스킬 프레임워크 · 도메인 스킬 8종",
+   one:"에이전트에 분야 전문 사고 프레임을 끼우는 스킬 8종. KoGEO는 글로벌 마케팅 신무기.",
+   what:"'스킬' = 에이전트에게 특정 분야 전문 워크플로우를 끼우는 마크다운 패키지. 박사님이 분야별 최고 스킬을 수집·표준화한 부품 창고입니다.",
+   comp:"각 분야 시니어의 체크리스트를 우리 페르소나에게 그대로 장착.",
+   str:"KoGEO(한국어 콘텐츠를 ChatGPT·Perplexity 답변에 인용되게 만듦, Princeton 논문 기반), marketing·pm 스킬, 개발 라이프사이클 스킬.",
+   why:"미국 학부모가 'AI 수학앱 추천해줘'를 ChatGPT에 물어보는 시대 — 그 답변 안에 니가교수가 인용되느냐가 승부입니다. KoGEO가 그걸 만드는 검증된 전략. 세빈 CBO의 1순위 무기.",
+   repos:["KoGEO","marketing-skills","pm-skills","agent-skills","mattpocock","my-skills","k-skill","Cybersecurity-Skills"], cls:[["direct","KoGEO 직결"],["use","유용"]]},
+
+  {num:"클러스터 06", icon:"📈", star:true, tag:"use",
+   title:"금융 · 주식 · 시장조사 7종",
+   one:"멀티에이전트 시장분석 도구 7종. 대표 직접 지목 — 주식앱이 아니라 준서의 시장조사 엔진으로.",
+   what:"금융 도구지만 핵심은 '구조의 이식'입니다. '종목' 자리에 '경쟁 앱·시장 세그먼트'를 넣으면 에듀테크 시장조사 엔진이 됩니다.",
+   comp:"강세·약세 애널리스트를 찬반 토론시켜 한쪽으로 치우치지 않은 결론을 뽑는 회의실.",
+   str:"TradingAgents(Bull vs Bear 토론 후 결정), financial-chat 분석 파이프라인, 한국(naver)·미국(maverick) 데이터 크롤 MCP.",
+   why:"'미국 진출하자(찬성) vs 리스크(반대)'를 에이전트에게 토론시켜 균형 잡힌 시장 진단을 얻습니다. 준서가 감이 아니라 다관점 토론 + 실데이터로 시장조사를 하게 됩니다.",
+   repos:["TradingAgents","maverick-mcp","naver-finance-crawl","financial-chat","Vibe-Trading","FinceptTerminal","tradingview-mcp"], cls:[["use","유용 · 준서"]]},
+
+  {num:"클러스터 07", icon:"🔮", star:true, wide:true, tag:"direct",
+   title:"시뮬레이션 · 예측 7종",
+   one:"결정 전에 미래를 리허설하는 도구 7종. 대표 직접 지목 — 결정의 실패비용을 시뮬로 낮춘다.",
+   what:"캠페인·기능·가격·시장진입을 실제로 실행하기 전에, 수천 명의 학생·시장 에이전트가 사는 디지털 샌드박스에 던져 반응을 미리 봅니다.",
+   comp:"수천 명이 사는 병렬 세계에 우리 신기능·가격안을 던져 넣고, '신의 시점'으로 결과를 미리 지켜봄.",
+   str:"generative_agents(기억·성찰·계획하는 가짜 사람, 스탠퍼드 원조), MiroFish(한국어 군집예측, 가장 턴키·프롬프트가 한국어), oasis(100만 에이전트 소셜 확산 실험실).",
+   why:"준서·현우가 감이 아니라 리허설로 결정하고, 세빈은 캠페인 바이럴을 돈 쓰기 전에 실험하고, 학생 코호트의 새 레슨 반응을 마을 단위로 시뮬합니다. MiroFish는 한국어라 즉시 이식 가능.",
+   repos:["generative_agents","MiroFish-Ko","oasis","concordia","YuLan-OneSim","FutureShow","smallville"], cls:[["direct","직결"],["use","유용 · 준서·현우"]]},
+
+  {num:"클러스터 08", icon:"🖥️", star:true, tag:"direct",
+   title:"터미널 · 인프라 5종 (박사님 원본)",
+   one:"어푸·요나단을 실제로 굴리는 바닥(runtime) 5종. cys-terminal은 우리 시스템의 박사님 원본.",
+   what:"클러스터 2가 '어떻게 지휘하나'였다면 여기는 '그 지휘를 실제 실행하는 소프트웨어'입니다. 그리고 이 안에 우리 시스템의 원본이 들어있습니다.",
+   comp:"여러 CLI 에이전트를 회사처럼 묶어 돌리는 관제탑.",
+   str:"cys-terminal(박사님 원본 — 역할 디렉티브·soul.md·javis 도구 16종이 우리 세션브리핑·메모리·비서단과 판박이), openclaw(메신저로 상주하는 개인 비서의 완성형).",
+   why:"어푸 파이프라인을 밑바닥부터 다시 만들 필요 없이 박사님 원본에 정렬·흡수하면 됩니다. 설계철학 10명제가 우리 Hermes·결정론과 정확히 같은 철학. 지름길입니다.",
+   repos:["cys-terminal","openclaw","cmux","terax-ai","omlx"], cls:[["direct","직결 최상"]]},
+
+  {num:"클러스터 09", icon:"📡", tag:"use",
+   title:"데이터 · 모니터링 · 뉴스 5종",
+   one:"세상·시장·뉴스를 자동 감시·수집해 인텔리전스로 바꾸는 손발. 시장조사·예측에 실데이터를 붓는 파이프.",
+   what:"클러스터 6·7이 '어떻게 분석·예측하나'였다면, 여기는 '그 재료를 어디서 어떻게 긁어오나'입니다.",
+   comp:"막혀도 읽어낸다 — 차단된 사이트도 뚫는 강건한 리더.",
+   str:"insane-search(네이버·쿠팡·X·유튜브 등 차단된 사이트도 키 없이 뚫어 읽음, 바로 스킬로 얹기), worldmonitor(글로벌 상황판 윈도우 앱), pickk-crawl(한국 쇼핑몰 크롤).",
+   why:"지금 막히는 사이트들이 뚫리면서 '막혀서 못 봤다'가 사라집니다. 클러스터 6·7의 '감이 아니라 실데이터' 약속을 실제로 이행하는 수집 인프라. 이번 묶음 최우선 도입 후보.",
+   repos:["insane-search","worldmonitor","pickk-crawl","theInsightnews","cysinsight"], cls:[["use","유용"]]},
+
+  {num:"클러스터 10", icon:"🎬", tag:"direct",
+   title:"콘텐츠 · 영상 · 음성 5종",
+   one:"마케팅팀을 통째로 에이전트로 — 콘텐츠 제작부터 13+ 플랫폼 배포까지. 글로벌 마케팅의 '손'.",
+   what:"지금까지 마케팅은 전략·최적화(KoGEO)만 있고 실제로 만들고 뿌리는 손이 없었습니다. 이 묶음이 그 손입니다.",
+   comp:"강의를 쇼츠 공장으로 — 만들고, 자르고, 13개 플랫폼에 한 번에 뿌림.",
+   str:"ix-social-media-manager(17스킬, 트위터·틱톡·유튜브 등 동시배포, voice-dna로 브랜드 톤 유지), ix-clip(긴 영상을 쇼츠로 자동 변환), VibeVoice(다국어 음성).",
+   why:"KoGEO(제작 최적화)→ix-social(제작·배포)로 풀 파이프가 완성됩니다. 강의 자산이 곧 마케팅 자산이 되고, 글로벌 진출에 필요한 다국어 음성 나레이션까지 직결.",
+   repos:["ix-social-media-manager","ix-clip-extractor","OpenMontage","VibeVoice","youtube_song_maker"], cls:[["direct","직결 · 세빈·은우"]]},
+
+  {num:"클러스터 11", icon:"📜", tag:"use",
+   title:"프롬프트 · 방법론 · 리소스 6종",
+   one:"우리 에이전트를 세계 1등 수준으로 만드는 지혜·부품의 원천. 코드가 아니라 '어떻게 프롬프트하나'의 금맥.",
+   what:"어떻게 프롬프트하고 어떻게 일하게 하느냐의 참고 금맥. 요나단·어푸·니가교수 프롬프트 품질과 지민 개발 방법론에 직결됩니다.",
+   comp:"1등 제품들이 실제로 쓰는 프롬프트를 통째로 열람하는 도서관.",
+   str:"CL4R1T4S(Anthropic·Cursor·Devin 등 실제 상용 AI 시스템 프롬프트 원문), andrej-karpathy(가정 금지·트레이드오프 명시 — 대표가 준 규칙과 판박이), bkit(PDCA 개발킷).",
+   why:"요나단·어푸 프롬프트를 손감이 아니라 검증된 원문 패턴으로 끌어올립니다. karpathy 규칙은 대표가 이미 준 '트레이드오프 짚기·질문 주도'와 정확히 같아, 병합하면 즉시 강화됩니다.",
+   repos:["CL4R1T4S","andrej-karpathy-skills","bkit","ponytail","awesome-claude-skills","context-engineering"], cls:[["use","유용"]]},
+
+  {num:"클러스터 12", icon:"🗂️", tag:"use",
+   title:"도메인 응용 + 롱테일 완결",
+   one:"특정 도메인에 AI를 붙인 실전 앱 6종 + 나머지 74개 전수 원장. 171개를 하나도 안 뺐다는 증명.",
+   what:"법률·운영 자동화 실전 앱들과, 171개 전량을 계정처리했음을 증명하는 롱테일 원장입니다. 이 묶음으로 전수조사가 완결됩니다.",
+   comp:"법률 Claude — 법제처 원문 근거가 없으면 단정하지 않음.",
+   str:"korean-law-mcp(법제처 42개 API를 17개 도구로, 인용검증으로 환각 방지), googleworkspace-cli(어푸의 손발이 구글 드라이브·지메일·캘린더에 닿음), vmc(내부도구 템플릿).",
+   why:"사업자등록·개인정보보호·교육법 검토를 원문 근거로 즉답하고, 팀 캘린더·메일·드라이브를 자동화합니다. 롱테일 74개까지 버리지 않고 전량 분류해 171/171 완결을 증명.",
+   repos:["korean-law-mcp","googleworkspace-cli","vmc-admin","carecycle","mybibletoolbox","ahp","+ 롱테일 74"], cls:[["use","유용"],["ref","패턴 참고"]]},
+];
+
+const grid = document.getElementById('grid');
+const clsName = {direct:'chip direct', use:'chip use', ref:'chip ref'};
+
+CLUSTERS.forEach((c, i) => {
+  const btn = document.createElement('button');
+  btn.className = 'card' + (c.wide ? ' wide' : '');
+  btn.setAttribute('aria-haspopup','dialog');
+  btn.innerHTML = `
+    ${c.star ? '<span class="badge">★ 핵심</span>' : ''}
+    <div class="card-top">
+      <div class="tile">${c.icon}</div>
+      <div><span class="cnum">${c.num}</span><h3>${c.title}</h3></div>
+    </div>
+    <p class="one">${c.one}</p>
+    <div class="chips">
+      ${c.cls.map(([k,l]) => `<span class="${clsName[k]}">${l}</span>`).join('')}
+      <span class="more" style="margin-left:auto">자세히 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg></span>
+    </div>`;
+  btn.addEventListener('click', () => openModal(c, btn));
+  grid.appendChild(btn);
+});
+
+const overlay = document.getElementById('overlay');
+const mBody = document.getElementById('mBody');
+let lastFocus = null;
+
+function openModal(c, trigger){
+  lastFocus = trigger;
+  document.getElementById('mTile').textContent = c.icon;
+  document.getElementById('mNum').textContent = c.num + (c.star ? ' · ★ 핵심' : '');
+  document.getElementById('mTitle').textContent = c.title;
+  mBody.innerHTML = `
+    <div class="m-chips">${c.cls.map(([k,l]) => `<span class="${clsName[k]}">${l}</span>`).join('')}</div>
+    <div class="panel"><div class="k"><span class="ic">💡</span>이게 뭔가요</div><p>${c.what}</p></div>
+    <div class="panel"><div class="k"><span class="ic">🎯</span>쉬운 비유</div><p>${c.comp}</p></div>
+    <div class="panel"><div class="k"><span class="ic">⚙️</span>핵심 기술</div><p>${c.str}</p></div>
+    <div class="panel why"><div class="k"><span class="ic">🚀</span>왜 우리에게 중요한가</div><p>${c.why}</p></div>
+    <div><div class="k" style="font-size:12px;font-weight:800;color:var(--faint);letter-spacing:.03em;text-transform:uppercase;margin-bottom:9px">대표 저장소</div>
+      <div class="repos">${c.repos.map(r => `<span class="repo">${r}</span>`).join('')}</div></div>`;
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  document.getElementById('mClose').focus();
+}
+function closeModal(){
+  overlay.classList.remove('open');
+  document.body.style.overflow = '';
+  if(lastFocus) lastFocus.focus();
+}
+document.getElementById('mClose').addEventListener('click', closeModal);
+overlay.addEventListener('click', e => { if(e.target === overlay) closeModal(); });
+document.addEventListener('keydown', e => { if(e.key === 'Escape' && overlay.classList.contains('open')) closeModal(); });
+
+// theme toggle
+const root = document.documentElement;
+const tBtn = document.getElementById('themeBtn');
+tBtn.addEventListener('click', () => {
+  const cur = root.getAttribute('data-theme');
+  const isDark = cur ? cur === 'dark' : matchMedia('(prefers-color-scheme:dark)').matches;
+  root.setAttribute('data-theme', isDark ? 'light' : 'dark');
+});
+</script>
+
+</body>
+</html>
