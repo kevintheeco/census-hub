@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="최윤식 박사 GitHub 171개 전수조사 결과 — 팀 공유용 허브">
-<title>최윤식 박사 GitHub 전수조사 — 팀 공유</title>
+<meta name="description" content="URP 기술 레이더 — GitHub 최전선 기술을 섹터로 정리하고 매일 정찰하는 팀 허브">
+<title>URP 기술 레이더 · GitHub 최전선</title>
 </head>
 <body>
 <style>
@@ -157,6 +157,17 @@
   .repo{font-size:12px;font-weight:600;font-family:ui-monospace,'SF Mono',Menlo,monospace;color:var(--sub);
     background:var(--surface-2);border:1px solid var(--line);padding:4px 9px;border-radius:8px}
   .m-chips{display:flex;gap:7px;flex-wrap:wrap}
+  /* 섹터 드릴인 */
+  .sector-cluster{border:1px solid var(--line);border-radius:16px;padding:14px 16px;margin-bottom:12px;background:var(--surface-2)}
+  .sc-head{display:flex;align-items:center;gap:11px;cursor:pointer;margin-bottom:10px}
+  .sc-head:hover .sc-t{color:var(--accent-ink)}
+  .sc-ic{font-size:22px;flex:none}
+  .sc-t{font-size:15px;font-weight:800;letter-spacing:-.01em;transition:color .2s}
+  .sc-o{font-size:12.5px;color:var(--sub);margin-top:2px;line-height:1.45}
+  .sc-open{margin-left:auto;flex:none;font-size:12px;font-weight:800;color:var(--accent);white-space:nowrap}
+  .sector-cluster .repos .repo{cursor:pointer;transition:background .2s,border-color .2s,color .2s}
+  .sector-cluster .repos .repo:hover{background:var(--accent-soft);border-color:var(--accent);color:var(--accent-ink)}
+  .note-sm{font-size:12px;color:var(--faint);text-align:center;padding:6px 0 2px;line-height:1.5}
 
   footer{padding:52px 0 70px;color:var(--faint);font-size:13px;text-align:center;line-height:1.7}
   footer b{color:var(--sub)}
@@ -176,13 +187,13 @@
 
 <div class="wrap">
   <header class="hero">
-    <span class="eyebrow"><span class="dot"></span>전수조사 완결 · 2026-07-08</span>
-    <h1>최윤식 박사 GitHub <span class="hl">171개</span>,<br>하나도 빼지 않고 다 뜯어봤습니다.</h1>
-    <p>박사님이 공개한 저장소 171개를 13개 묶음으로 나눠 코드·프롬프트·기술까지 정독하고, 니가교수에 <b>바로 쓸 것 / 특정 팀원에게 유용한 것 / 참고할 것</b>으로 분류했습니다. 카드를 누르면 각 묶음이 무엇이고 왜 우리에게 중요한지 열립니다.</p>
+    <span class="eyebrow"><span class="dot"></span>URP 기술 레이더 · 매일 갱신</span>
+    <h1>전 세계 개발자들의 <span class="hl">최전선 기술</span>,<br>우리 무기로 만듭니다.</h1>
+    <p>GitHub에서 검증한 기술 171개를 기능 섹터로 정리하고, 매일 새로 뜨는 스킬·프롬프트를 정찰합니다. 섹터를 눌러 개별 기술로 들어가고, 위 <b>오늘의 기술</b>에서 매일의 Top 10을 저장/폐기하세요.</p>
 
     <div class="stats">
       <div class="stat"><div class="n">171<small>개</small></div><div class="l">전수 분석한 저장소</div></div>
-      <div class="stat"><div class="n">13<small>묶음</small></div><div class="l">클러스터 분석노트</div></div>
+      <div class="stat"><div class="n">9<small>섹터</small></div><div class="l">기능 섹터로 정리</div></div>
       <div class="stat"><div class="n">67<small>종</small></div><div class="l">코드·프롬프트 실물 내장</div></div>
       <div class="stat"><div class="n">4<small>종</small></div><div class="l">바로 탑재 가능 팩</div></div>
     </div>
@@ -209,8 +220,8 @@
   <section class="sec">
     <div class="sec-h">
       <div>
-        <h2>13개 묶음 살펴보기</h2>
-        <p>카드를 누르면 상세가 열립니다. ★ 표시는 대표가 직접 지목했거나 우리에게 가장 중요한 묶음입니다.</p>
+        <h2>기술 지도 · 섹터별</h2>
+        <p>섹터를 누르면 그 안의 개별 기술로 들어가고, 기술을 누르면 상세 분석이 열립니다. 전수조사 원본은 그대로 보존돼 있어요.</p>
       </div>
       <div class="legend">
         <span><span class="lg-dot" style="background:var(--accent)"></span>직결 · 바로 씀</span>
@@ -243,8 +254,8 @@
   </section>
 
   <footer>
-    <b>URP · 니가교수</b> — 최윤식 박사 GitHub 전수조사 트랙 A 완결<br>
-    171개 전량 계정처리 · 클러스터 0~12 분석노트 + 프롬프트·코드 금고 · 2026-07-08
+    <b>URP · 니가교수</b> — GitHub 최전선 레이더<br>
+    검증한 기술 171개를 9개 섹터로 · 매일 새 Top 10 정찰 · 저장/폐기로 저장고를 키웁니다
   </footer>
 </div>
 
@@ -391,24 +402,66 @@ const CLUSTERS = [
 const grid = document.getElementById('grid');
 const clsName = {direct:'chip direct', use:'chip use', ref:'chip ref'};
 
-CLUSTERS.forEach((c, i) => {
+/* 섹터 지도 — 기존 CLUSTERS(14묶음) 데이터를 삭제 없이 '기능 섹터'로 재편.
+   섹터 → 개별 기술 → 그 기술이 속한 원본 분석(openModal)으로 드릴인. cl은 CLUSTERS 배열 인덱스. */
+const SECTORS = [
+  {icon:"🏢", title:"오케스트레이션 · 하네스", tag:"direct", one:"AI 에이전트 팀을 회사처럼 지휘하고 실제로 굴리는 바닥까지.", cl:[0,3,9]},
+  {icon:"🧩", title:"스킬 · 프롬프트 · 방법론", tag:"direct", one:"에이전트에 분야 전문 사고를 끼우는 스킬과, 1등 제품의 프롬프트 원문.", cl:[2,6,12]},
+  {icon:"🧠", title:"기억 · 컨텍스트", tag:"direct", one:"세션을 넘어 기억을 남기고 긴 맥락을 다루는 도구.", cl:[4]},
+  {icon:"🔧", title:"코드 인텔리전스 · MCP", tag:"direct", one:"에이전트가 코드·웹·문서를 더 똑똑하고 싸게 다루게.", cl:[5]},
+  {icon:"📈", title:"시장조사 · 금융", tag:"use", one:"멀티에이전트 시장분석. '종목' 자리에 경쟁앱·세그먼트를 넣으면 시장조사 엔진.", cl:[7]},
+  {icon:"🔮", title:"시뮬레이션 · 예측", tag:"direct", one:"결정 전에 미래를 리허설. 실패비용을 시뮬로 낮춘다.", cl:[8]},
+  {icon:"📡", title:"데이터 · 크롤 · 모니터링", tag:"use", one:"세상·시장·뉴스를 자동 감시·수집해 인텔리전스로.", cl:[10]},
+  {icon:"🎬", title:"콘텐츠 · 영상 · 음성", tag:"direct", one:"마케팅팀을 통째로 에이전트로. 제작부터 다플랫폼 배포까지.", cl:[11]},
+  {icon:"🗂️", title:"도메인 응용 + 롱테일", tag:"use", one:"특정 분야에 AI를 붙인 실전 앱들 + 나머지 전량 원장.", cl:[1,13]},
+];
+const tagKo = {direct:'직결', use:'유용', ref:'참고'};
+
+SECTORS.forEach(s => {
+  const techCount = s.cl.reduce((n,ci)=>n+CLUSTERS[ci].repos.length, 0);
   const btn = document.createElement('button');
-  btn.className = 'card' + (c.wide ? ' wide' : '');
+  btn.className = 'card' + (s.cl.length>=3 ? ' wide' : '');
   btn.setAttribute('aria-haspopup','dialog');
   btn.innerHTML = `
-    ${c.star ? '<span class="badge">★ 핵심</span>' : ''}
     <div class="card-top">
-      <div class="tile">${c.icon}</div>
-      <div><span class="cnum">${c.num}</span><h3>${c.title}</h3></div>
+      <div class="tile">${s.icon}</div>
+      <div><span class="cnum">섹터 · 기술 ${techCount}종</span><h3>${s.title}</h3></div>
     </div>
-    <p class="one">${c.one}</p>
+    <p class="one">${s.one}</p>
     <div class="chips">
-      ${c.cls.map(([k,l]) => `<span class="${clsName[k]}">${l}</span>`).join('')}
-      <span class="more" style="margin-left:auto">자세히 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg></span>
+      <span class="${clsName[s.tag]}">${tagKo[s.tag]}</span>
+      <span class="more" style="margin-left:auto">개별기술 열기 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg></span>
     </div>`;
-  btn.addEventListener('click', () => openModal(c, btn));
+  btn.addEventListener('click', () => openSector(s, btn));
   grid.appendChild(btn);
 });
+
+function openSector(s, trigger){
+  lastFocus = trigger;
+  document.getElementById('mTile').textContent = s.icon;
+  document.getElementById('mNum').textContent = '섹터 · 개별 기술로 드릴인';
+  document.getElementById('mTitle').textContent = s.title;
+  mBody.innerHTML = s.cl.map(ci => {
+    const c = CLUSTERS[ci];
+    return `<div class="sector-cluster" data-ci="${ci}">
+      <div class="sc-head">
+        <span class="sc-ic">${c.icon}</span>
+        <div><div class="sc-t">${c.title}</div><div class="sc-o">${c.one}</div></div>
+        <span class="sc-open">분석 열기 →</span>
+      </div>
+      <div class="repos">${c.repos.map(r => `<span class="repo">${r}</span>`).join('')}</div>
+    </div>`;
+  }).join('') + `<div class="note-sm">기술 또는 「분석 열기」를 누르면 그 기술이 속한 상세 분석이 열립니다. 원본 전수조사 데이터는 그대로 보존돼 있어요.</div>`;
+  mBody.querySelectorAll('.sector-cluster').forEach(el => {
+    const ci = +el.dataset.ci;
+    const go = () => openModal(CLUSTERS[ci], trigger);
+    el.querySelector('.sc-head').addEventListener('click', go);
+    el.querySelectorAll('.repo').forEach(chip => chip.addEventListener('click', go));
+  });
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  document.getElementById('mClose').focus();
+}
 
 const overlay = document.getElementById('overlay');
 const mBody = document.getElementById('mBody');
