@@ -442,5 +442,219 @@ tBtn.addEventListener('click', () => {
 });
 </script>
 
+<!-- ===================================================================== -->
+<!-- 오늘의 기술 레이더 위젯 (2026-07-09 추가 · 기존 페이지 무변경 · tr- 접두사) -->
+<!-- ===================================================================== -->
+<style>
+  .tr-fab{position:fixed;right:22px;bottom:22px;z-index:200;display:inline-flex;align-items:center;gap:9px;
+    background:var(--accent);color:#fff;border:none;cursor:pointer;font-family:var(--font);font-weight:800;font-size:14.5px;
+    padding:13px 18px;border-radius:999px;box-shadow:0 8px 28px rgba(44,111,246,.42);transition:transform .18s ease,box-shadow .3s}
+  .tr-fab:hover{transform:translateY(-2px);box-shadow:0 12px 34px rgba(44,111,246,.5)}
+  .tr-fab:active{transform:scale(.97)}
+  .tr-fab .tr-sat{font-size:17px}
+  .tr-fab .tr-count{background:#fff;color:var(--accent-ink);font-size:12px;font-weight:800;min-width:20px;height:20px;
+    border-radius:999px;display:grid;place-items:center;padding:0 6px;font-variant-numeric:tabular-nums}
+  @media (max-width:560px){.tr-fab span.tr-lbl{display:none}}
+
+  .tr-ov{position:fixed;inset:0;z-index:210;background:rgba(16,22,34,.55);backdrop-filter:blur(6px);
+    display:flex;align-items:flex-end;justify-content:center;padding:0;opacity:0;pointer-events:none;transition:opacity .3s ease}
+  .tr-ov.tr-open{opacity:1;pointer-events:auto}
+  @media (min-width:720px){.tr-ov{align-items:center;padding:24px}}
+  .tr-panel{background:var(--surface);width:100%;max-width:600px;max-height:90vh;overflow-y:auto;
+    border:1px solid var(--line);border-radius:26px 26px 0 0;box-shadow:var(--shadow-lg);
+    transform:translateY(40px);transition:transform .4s cubic-bezier(.32,.72,0,1)}
+  @media (min-width:720px){.tr-panel{border-radius:26px;transform:translateY(20px) scale(.98)}}
+  .tr-ov.tr-open .tr-panel{transform:none}
+  .tr-head{position:sticky;top:0;background:var(--surface);border-bottom:1px solid var(--line);padding:20px 22px 0;border-radius:26px 26px 0 0;z-index:2}
+  .tr-head-top{display:flex;align-items:center;gap:10px}
+  .tr-head-top .tr-ic{font-size:20px}
+  .tr-head-top h3{margin:0;font-size:18px;font-weight:800;letter-spacing:-.02em}
+  .tr-head-top .tr-dt{font-size:12px;color:var(--faint);font-weight:700;margin-left:2px}
+  .tr-x{margin-left:auto;width:34px;height:34px;border-radius:11px;border:1px solid var(--line);background:var(--surface-2);
+    color:var(--sub);font-size:17px;cursor:pointer;display:grid;place-items:center}
+  .tr-tabs{display:flex;gap:6px;margin-top:14px}
+  .tr-tab{flex:1;padding:9px;border:none;background:none;cursor:pointer;font-family:var(--font);font-weight:800;font-size:13.5px;
+    color:var(--faint);border-bottom:2.5px solid transparent}
+  .tr-tab.tr-on{color:var(--accent);border-bottom-color:var(--accent)}
+  .tr-body{padding:16px 22px 24px;display:flex;flex-direction:column;gap:11px}
+
+  .tr-row{border:1px solid var(--line);border-radius:16px;padding:14px 15px;background:var(--surface);display:flex;flex-direction:column;gap:9px}
+  .tr-row-top{display:flex;align-items:flex-start;gap:11px}
+  .tr-tile{width:40px;height:40px;flex:none;border-radius:12px;display:grid;place-items:center;font-size:20px;background:var(--accent-soft)}
+  .tr-tt{flex:1;min-width:0}
+  .tr-rk{font-size:11px;font-weight:800;color:var(--faint);letter-spacing:.05em}
+  .tr-name{font-size:15px;font-weight:800;line-height:1.3;margin:1px 0}
+  .tr-repo{font-family:ui-monospace,Menlo,monospace;font-size:11px;color:var(--sub);word-break:break-all}
+  .tr-meta{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-top:3px}
+  .tr-chip{font-size:10.5px;font-weight:700;padding:3px 8px;border-radius:999px}
+  .tr-chip.direct{background:var(--accent-soft);color:var(--accent-ink)}
+  .tr-chip.use{background:var(--good-soft);color:var(--good)}
+  .tr-star{font-size:11px;font-weight:800;color:var(--gold);background:var(--gold-soft);padding:3px 8px;border-radius:999px}
+  .tr-up{font-size:10.5px;font-weight:800;color:var(--good);background:var(--good-soft);padding:3px 7px;border-radius:999px}
+  .tr-rec{margin-left:auto;font-size:10.5px;font-weight:800;padding:3px 9px;border-radius:999px}
+  .tr-rec.save{color:var(--good)} .tr-rec.hold{color:var(--gold)}
+  .tr-what{font-size:13px;color:var(--sub);margin:0;line-height:1.55}
+  .tr-more{background:none;border:none;color:var(--accent);font-weight:700;font-size:12.5px;cursor:pointer;padding:0;font-family:var(--font);align-self:flex-start}
+  .tr-detail{display:none;flex-direction:column;gap:9px;padding-top:4px}
+  .tr-detail.tr-show{display:flex}
+  .tr-pan{background:var(--surface-2);border:1px solid var(--line);border-radius:12px;padding:11px 13px}
+  .tr-pan .tr-k{font-size:11px;font-weight:800;color:var(--accent-ink);margin-bottom:4px}
+  .tr-pan.why{background:var(--good-soft);border-color:color-mix(in srgb,var(--good) 20%,var(--line))}
+  .tr-pan.why .tr-k{color:var(--good)}
+  .tr-pan p{margin:0;font-size:13px;color:var(--ink);line-height:1.58}
+  .tr-gh{font-size:12px;font-weight:700;color:var(--accent);text-decoration:none}
+  .tr-act{display:flex;gap:8px;margin-top:2px}
+  .tr-b{flex:1;display:inline-flex;align-items:center;justify-content:center;gap:5px;font-family:var(--font);font-size:13.5px;
+    font-weight:800;padding:10px;border-radius:11px;cursor:pointer;border:1px solid var(--line);transition:transform .12s,background .2s,color .2s}
+  .tr-b:active{transform:scale(.97)}
+  .tr-b.save{background:var(--good);color:#fff;border-color:transparent}
+  .tr-b.discard{background:var(--surface-2);color:var(--sub)}
+  .tr-b.discard:hover{background:#FCE9E9;color:#E5484D}
+  @media (prefers-color-scheme:dark){.tr-b.discard:hover{background:#2B1618;color:#F16A6E}}
+  .tr-empty{border:1px dashed var(--line);border-radius:14px;padding:26px;text-align:center;color:var(--faint);font-size:13.5px}
+  .tr-hint{font-size:12px;color:var(--faint);text-align:center;padding:4px 0 2px}
+</style>
+
+<button class="tr-fab" id="trFab" aria-label="오늘의 기술 열기">
+  <span class="tr-sat">🛰️</span><span class="tr-lbl">오늘의 기술</span><span class="tr-count" id="trCount">10</span>
+</button>
+
+<div class="tr-ov" id="trOv" role="dialog" aria-modal="true" aria-label="오늘의 기술">
+  <div class="tr-panel">
+    <div class="tr-head">
+      <div class="tr-head-top">
+        <span class="tr-ic">🛰️</span>
+        <h3>오늘의 기술</h3><span class="tr-dt" id="trDt"></span>
+        <button class="tr-x" id="trX" aria-label="닫기">✕</button>
+      </div>
+      <div class="tr-tabs">
+        <button class="tr-tab tr-on" id="trTabToday">오늘 10</button>
+        <button class="tr-tab" id="trTabSaved">저장고 <span id="trSavedN">0</span></button>
+      </div>
+    </div>
+    <div class="tr-body" id="trBody"></div>
+  </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script>
+/* 오늘의 정찰 데이터 — 요나단이 매일 이 블록만 갱신·배포 (기존 페이지 무관) */
+(function(){
+  const TODAY={date:"2026-07-09",items:[
+    {id:"system_prompts_leaks",rank:1,repo:"asgeirtj/system_prompts_leaks",url:"https://github.com/asgeirtj/system_prompts_leaks",stars:54325,starsToday:1218,icon:"🔓",tag:"direct",title:"상용 AI 시스템 프롬프트 원문 모음",what:"Claude Opus 4.8·Claude Code, GPT-5.5, Gemini 3.5, Cursor 등 실제 상용 AI의 시스템 프롬프트 원문을 추출해 계속 업데이트.",why:"세계 최고 제품들이 '어떻게 프롬프트하는가'의 정답지가 공개된 것. 손감 프롬프트를 검증된 실전 패턴으로 격상.",connect:"요나단·어푸·니가교수 프롬프트 품질에 직결. Claude Code 원문은 우리 하네스 설계와 겹쳐 바로 흡수 가능.",recommend:"save"},
+    {id:"agent-skills",rank:2,repo:"addyosmani/agent-skills",url:"https://github.com/addyosmani/agent-skills",stars:74395,starsToday:1297,icon:"🛠️",tag:"direct",title:"AI 코딩 에이전트용 실무 스킬",what:"구글 크롬 리드 Addy Osmani가 만든, 코딩 에이전트에게 실무 엔지니어링 역량을 끼우는 프로덕션급 스킬 모음.",why:"업계 최정상 개발자가 정리한 '에이전트를 실무 개발자처럼 일하게 하는' 표준. 신뢰도가 남다름.",connect:"지민 CTO 개발 워크플로우와 코딩 페르소나에 바로 장착. 미국용 코드 품질 기준을 여기 맞추면 됨.",recommend:"save"},
+    {id:"caveman",rank:3,repo:"JuliusBrussee/caveman",url:"https://github.com/JuliusBrussee/caveman",stars:86878,starsToday:380,icon:"🪨",tag:"direct",title:"토큰 65% 절감 스킬",what:"Claude Code가 핵심만 '원시인처럼' 말하게 해 토큰을 65%까지 줄이는 스킬.",why:"품질을 크게 해치지 않으면서 API 비용을 통째로 낮추는 실전 기법. 지금 폭발적 확산.",connect:"어푸+비서단 6명 24시간 구조에서 곧바로 돈을 아낌. rtk와 스택으로 쌓으면 절감 폭이 더 큼.",recommend:"save"},
+    {id:"OfficeCLI",rank:4,repo:"iOfficeAI/OfficeCLI",url:"https://github.com/iOfficeAI/OfficeCLI",stars:12117,starsToday:1717,icon:"📄",tag:"direct",title:"AI 에이전트용 오피스 자동화",what:"Office 설치 없이 단일 실행파일로 Word·Excel·PowerPoint를 읽고 편집·자동화하는 에이전트 전용 CLI.",why:"에이전트가 실제 업무 문서를 직접 다루는 마지막 손. 지금까지 AI가 못 만지던 사무 파일을 자동화.",connect:"어푸가 보고서·학부모 리포트·엑셀 정산·발표덱을 직접 생성·수정. 포털 업무지시 결과물을 문서로 산출.",recommend:"save"},
+    {id:"last30days-skill",rank:5,repo:"mvanhorn/last30days-skill",url:"https://github.com/mvanhorn/last30days-skill",stars:50832,starsToday:352,icon:"🔎",tag:"direct",title:"다플랫폼 리서치·요약 스킬",what:"주제를 Reddit·X·YouTube·HN·웹까지 훑어 근거 있는 요약으로 합성해주는 에이전트 스킬.",why:"'감이 아니라 실데이터'를 한 번에 모아 근거 기반 브리핑으로. 정보 수집 병목을 없앰.",connect:"준서 시장조사·현우 전략 인텔리전스에 직결. 시장조사·예측에 실데이터를 붓는 수집 스킬.",recommend:"save"},
+    {id:"claude-skills",rank:6,repo:"alirezarezvani/claude-skills",url:"https://github.com/alirezarezvani/claude-skills",stars:21727,starsToday:295,icon:"🧩",tag:"use",title:"345종 Claude 스킬·플러그인 창고",what:"엔지니어링·마케팅·제품·C레벨 자문·리서치·재무까지 345개 스킬·30+ 에이전트를 묶은 대형 팩.",why:"분야별 전문 워크플로우 부품 창고. 처음부터 만들 필요 없이 골라 끼움.",connect:"6페르소나에 분야 스킬 장착. 품질 편차가 있어 통째보다 '골라 쓰기'.",recommend:"hold"},
+    {id:"claude-video",rank:7,repo:"bradautomates/claude-video",url:"https://github.com/bradautomates/claude-video",stars:6127,starsToday:951,icon:"🎬",tag:"direct",title:"Claude가 영상을 보고 분석",what:"영상을 내려받아 프레임 추출·자막 전사까지 해서 Claude에게 넘겨 '영상을 보게' 하는 스킬.",why:"텍스트·이미지에 머물던 에이전트의 눈을 영상으로 확장.",connect:"니가교수 강의영상 분석·요약, 풀이 과정 영상 채점 확장, 세빈·은우 마케팅 영상에 직결.",recommend:"save"},
+    {id:"OmniRoute",rank:8,repo:"diegosouzapw/OmniRoute",url:"https://github.com/diegosouzapw/OmniRoute",stars:13842,starsToday:640,icon:"🔀",tag:"direct",title:"무료 AI 게이트웨이 (231개 공급자)",what:"하나의 엔드포인트로 231개+ 공급자 연결, 장애 시 자동 폴백·토큰압축으로 15~95% 절감.",why:"AI 장애·비용 리스크를 인프라 층에서 통째로 해결. 우리 백업 프록시의 완성형 참고서.",connect:"우리 'AI 백업 프록시'를 이 구조로 강화하면 장애 대응·비용절감 한 번에. 지민 검토 1순위.",recommend:"save"},
+    {id:"page-agent",rank:9,repo:"alibaba/page-agent",url:"https://github.com/alibaba/page-agent",stars:25248,starsToday:410,icon:"🖱️",tag:"use",title:"웹 화면을 말로 조작하는 GUI 에이전트",what:"웹페이지에 심는 JS 에이전트로 자연어 명령으로 화면 UI를 직접 조작. 알리바바 오픈소스.",why:"'AI가 대신 화면을 눌러준다'는 GUI 자동화의 실전 구현.",connect:"대표님이 아쉬워하신 '화면조작 한계' 보완 후보. 우리 웹앱에 심으면 말로 조작. 접목 검토 필요.",recommend:"hold"},
+    {id:"astryx",rank:10,repo:"facebook/astryx",url:"https://github.com/facebook/astryx",stars:7214,starsToday:690,icon:"🎨",tag:"use",title:"에이전트 친화형 디자인 시스템",what:"완전 커스터마이즈 가능하고 'AI가 다루기 쉽게' 설계된 오픈소스 디자인 시스템. Meta 공개.",why:"AI가 UI를 생성·수정하는 시대에 맞춘 디자인 시스템. 일관된 고급 UI를 찍어내기 좋음.",connect:"우리 프론트 결(토스×듀오링고)을 유지하며 에이전트가 UI를 자동 생성하는 기반 후보. taste-skill과 병행.",recommend:"hold"}
+  ]};
+
+  var FB={apiKey:"AIzaSyD0ObaK3aKotOjKjtg1MGz_SB4qHX0DhdA",authDomain:"yourprofessor-94a2d.firebaseapp.com",projectId:"yourprofessor-94a2d",storageBucket:"yourprofessor-94a2d.firebasestorage.app",messagingSenderId:"307018527457",appId:"1:307018527457:web:83c46611055283c427bda0"};
+  var _db=null;
+  try{ if(window.firebase){ firebase.initializeApp(FB); _db=firebase.firestore(); firebase.auth().signInAnonymously().catch(function(){}); } }catch(e){}
+
+  var DKEY='radar_decisions_'+TODAY.date, SKEY='radar_saved';
+  function lj(k,d){try{return JSON.parse(localStorage.getItem(k))||d}catch(e){return d}}
+  function sj(k,v){localStorage.setItem(k,JSON.stringify(v))}
+  var decisions=lj(DKEY,{}), savedLib=lj(SKEY,[]), tab='today';
+
+  function cloud(item,status){
+    if(!_db) return;
+    try{
+      _db.collection('tech_radar').doc(TODAY.date).set({date:TODAY.date,decisions:(function(){var o={};o[item.id]={status:status,at:Date.now()};return {decisions:o}.decisions})()},{merge:true}).catch(function(){});
+      var ref=_db.collection('tech_saved').doc(item.id);
+      if(status==='saved') ref.set(Object.assign({},item,{savedDate:TODAY.date,savedAt:Date.now()}),{merge:true}).catch(function(){});
+      else ref.delete().catch(function(){});
+    }catch(e){}
+  }
+
+  var $=function(id){return document.getElementById(id)};
+  var tagLabel={direct:'직결',use:'유용'}, recLabel={save:'추천 저장',hold:'추천 보류'};
+  var fmt=function(n){return n>=1000?(n/1000).toFixed(n>=10000?0:1)+'k':(''+n)};
+
+  function decide(item,status){
+    decisions[item.id]=status; sj(DKEY,decisions);
+    if(status==='saved' && !savedLib.some(function(s){return s.id===item.id})){ savedLib.unshift(Object.assign({},item,{savedDate:TODAY.date})); sj(SKEY,savedLib); }
+    cloud(item,status); render();
+  }
+
+  function rowToday(it){
+    var el=document.createElement('div'); el.className='tr-row';
+    el.innerHTML=''
+      +'<div class="tr-row-top"><div class="tr-tile">'+it.icon+'</div><div class="tr-tt">'
+      +'<div class="tr-rk">TOP '+it.rank+'</div><div class="tr-name">'+it.title+'</div><div class="tr-repo">'+it.repo+'</div>'
+      +'<div class="tr-meta"><span class="tr-chip '+it.tag+'">'+tagLabel[it.tag]+'</span><span class="tr-star">★ '+fmt(it.stars)+'</span>'
+      +(it.starsToday?'<span class="tr-up">▲ '+fmt(it.starsToday)+' 오늘</span>':'')+'<span class="tr-rec '+it.recommend+'">'+(recLabel[it.recommend]||'')+'</span></div>'
+      +'</div></div>'
+      +'<p class="tr-what">'+it.what+'</p>'
+      +'<button class="tr-more">자세히 ▾</button>'
+      +'<div class="tr-detail">'
+      +'<div class="tr-pan"><div class="tr-k">🚀 왜 중요한가</div><p>'+it.why+'</p></div>'
+      +'<div class="tr-pan why"><div class="tr-k">🎯 우리 사업 연결</div><p>'+it.connect+'</p></div>'
+      +'<a class="tr-gh" href="'+it.url+'" target="_blank" rel="noopener">GitHub에서 열기 ↗</a></div>'
+      +'<div class="tr-act"><button class="tr-b save">💾 저장</button><button class="tr-b discard">🗑 폐기</button></div>';
+    var det=el.querySelector('.tr-detail'), more=el.querySelector('.tr-more');
+    more.addEventListener('click',function(){det.classList.toggle('tr-show');more.textContent=det.classList.contains('tr-show')?'접기 ▴':'자세히 ▾';});
+    el.querySelector('.tr-b.save').addEventListener('click',function(){decide(it,'saved')});
+    el.querySelector('.tr-b.discard').addEventListener('click',function(){decide(it,'discarded')});
+    return el;
+  }
+
+  function render(){
+    var pending=TODAY.items.filter(function(it){return !decisions[it.id]});
+    $('trCount').textContent=pending.length;
+    $('trSavedN').textContent=savedLib.length;
+    $('trDt').textContent=TODAY.date;
+    var body=$('trBody'); body.innerHTML='';
+    if(tab==='today'){
+      if(!pending.length){ body.innerHTML='<div class="tr-empty">오늘 10개 모두 분류 끝! 내일 새 Top 10으로 채워집니다 🎉</div>'; }
+      else{ pending.forEach(function(it){body.appendChild(rowToday(it))});
+        var h=document.createElement('div'); h.className='tr-hint'; h.textContent='미분류는 다음 날 「어제의 github」로 넘겨 지민·현우가 분류할 수 있어요';
+        body.appendChild(h); }
+    }else{
+      if(!savedLib.length){ body.innerHTML='<div class="tr-empty">아직 저장한 기술이 없어요. 「오늘 10」에서 저장을 누르면 여기 쌓입니다.</div>'; }
+      else{ savedLib.forEach(function(s){
+        var el=document.createElement('div'); el.className='tr-row';
+        el.innerHTML='<div class="tr-row-top"><div class="tr-tile">'+s.icon+'</div><div class="tr-tt">'
+          +'<div class="tr-name">'+s.title+'</div><div class="tr-repo">'+s.repo+'</div>'
+          +'<div class="tr-meta"><span class="tr-chip '+s.tag+'">'+tagLabel[s.tag]+'</span>'
+          +'<span class="tr-rk">저장 '+(s.savedDate||'')+'</span></div></div></div>'
+          +'<a class="tr-gh" href="'+s.url+'" target="_blank" rel="noopener">GitHub 열기 ↗</a>';
+        body.appendChild(el);
+      }); }
+    }
+  }
+
+  function setTab(t){ tab=t; $('trTabToday').classList.toggle('tr-on',t==='today'); $('trTabSaved').classList.toggle('tr-on',t==='saved'); render(); }
+  function open(){ $('trOv').classList.add('tr-open'); document.body.style.overflow='hidden'; }
+  function close(){ $('trOv').classList.remove('tr-open'); document.body.style.overflow=''; }
+  $('trFab').addEventListener('click',open);
+  $('trX').addEventListener('click',close);
+  $('trOv').addEventListener('click',function(e){if(e.target===$('trOv'))close();});
+  $('trTabToday').addEventListener('click',function(){setTab('today')});
+  $('trTabSaved').addEventListener('click',function(){setTab('saved')});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&$('trOv').classList.contains('tr-open'))close();});
+
+  render();
+  // 팀 공유 상태 병합 (베스트에포트)
+  (async function(){
+    if(!_db) return;
+    try{
+      var doc=await _db.collection('tech_radar').doc(TODAY.date).get();
+      if(doc.exists && doc.data().decisions){ var cd=doc.data().decisions, ch=false; for(var id in cd){ if(!decisions[id]){decisions[id]=cd[id].status;ch=true;} } if(ch) sj(DKEY,decisions); }
+      var snap=await _db.collection('tech_saved').get();
+      snap.docs.forEach(function(x){var s=x.data(); if(!savedLib.some(function(v){return v.id===s.id})) savedLib.push(s);}); sj(SKEY,savedLib);
+    }catch(e){}
+    render();
+  })();
+})();
+</script>
+
 </body>
 </html>
