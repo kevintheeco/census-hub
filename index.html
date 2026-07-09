@@ -168,6 +168,14 @@
   .sector-cluster .repos .repo{cursor:pointer;transition:background .2s,border-color .2s,color .2s}
   .sector-cluster .repos .repo:hover{background:var(--accent-soft);border-color:var(--accent);color:var(--accent-ink)}
   .note-sm{font-size:12px;color:var(--faint);text-align:center;padding:6px 0 2px;line-height:1.5}
+  /* 롱테일 원장 */
+  .lt-block{border-top:2px solid var(--line);margin-top:8px;padding-top:16px}
+  .lt-title{font-size:15px;font-weight:800;margin-bottom:6px}
+  .lt-group{margin-bottom:15px}
+  .lt-label{font-size:12.5px;font-weight:800;color:var(--sub);margin-bottom:6px}
+  .lt-note{font-size:12px;color:var(--faint);margin-bottom:8px;line-height:1.55}
+  .repos a.repo{text-decoration:none;cursor:pointer}
+  .repos a.repo:hover{background:var(--accent-soft);border-color:var(--accent);color:var(--accent-ink)}
 
   footer{padding:52px 0 70px;color:var(--faint);font-size:13px;text-align:center;line-height:1.7}
   footer b{color:var(--sub)}
@@ -413,9 +421,28 @@ const SECTORS = [
   {icon:"🔮", title:"시뮬레이션 · 예측", tag:"direct", one:"결정 전에 미래를 리허설. 실패비용을 시뮬로 낮춘다.", cl:[8]},
   {icon:"📡", title:"데이터 · 크롤 · 모니터링", tag:"use", one:"세상·시장·뉴스를 자동 감시·수집해 인텔리전스로.", cl:[10]},
   {icon:"🎬", title:"콘텐츠 · 영상 · 음성", tag:"direct", one:"마케팅팀을 통째로 에이전트로. 제작부터 다플랫폼 배포까지.", cl:[11]},
-  {icon:"🗂️", title:"도메인 응용 + 롱테일", tag:"use", one:"특정 분야에 AI를 붙인 실전 앱들 + 나머지 전량 원장.", cl:[1,13]},
+  {icon:"🗂️", title:"도메인 응용 + 롱테일", tag:"use", one:"특정 분야에 AI를 붙인 실전 앱들 + 나머지 전량 원장.", cl:[1,13], longtail:true},
 ];
 const tagKo = {direct:'직결', use:'유용', ref:'참고'};
+
+/* 롱테일 원장 — GitHub 원본(idoforgod) 171개 중 카드로 정리한 primary 88개를 뺀 나머지 83개.
+   전수조사 커버리지 검증(옵시디언)의 성격별 분류 그대로. 이름 클릭 시 GitHub로. 누락 0 기계검증 완료. */
+const LONGTAIL = [
+  {label:"★ 박사님 원본 · 후속 정독분 (카드 승격 후보)", note:"전수조사 후속에 발굴. 특히 Vibe-learning은 소크라테스 튜터 17에이전트로 니가교수 교수법에 직결.",
+   items:["Vibe-learning-AgenticWorkflow","cys-harness-creator"]},
+  {label:"★ 추가 검토 후보 (쓸모 있는 소품)", note:"gonggong_hwpxskills(한글문서 스킬)는 한국 교육 콘텐츠에 직결, 최우선 후속.",
+   items:["gonggong_hwpxskills","cursorrules-to-claudemd","deep-interview-skills","kiro-tdd-workflow-files","pipeline-kit","CLI-Anything","ai-coding-agent","cc-feature-implementer","cc-system","claw-code","financial-machine-learning","financial-services","pastor-ai-skills"]},
+  {label:"상류 포크·미러 (도입대상 아님)",
+   items:["claude-code","codex","git","next.js","CopilotForXcode","adk-docs","langchain-kr","reachy_mini","reachy_mini_conversation_app","Dodson-Greek-Lexicon"]},
+  {label:"부트캠프·강의·실습",
+   items:["1-1-review-sample","1-2-lms","2-1-concert","2-2-chat","3-1-map","6-light-saas","6-saju-matfia","gpters-21th-temp","gpters-lecture-260323","kentback-spring","functional-coding-nutshell","Functional-Programming","MCP_Basic_Higher_Models_GC","gemini-antigravity-examples"]},
+  {label:"클론·토이·데모",
+   items:["coupang-clone","mafia-clone","mafia-codereview-harness","deskrpg","discord-bot","discord-bot-server","django-data-dashboard","claude_todo_web","expense-tracker-agent","deus","argos","cokacdir","htmlslim","marktl","skinna-public","any-buddy","Mark-XXXIX","monet-nextjs-template","monet-practice","monet-registry","next-cursor.com","lms-oikos","lms-oikos-next","mofit-ios","dype-vibecoding-demo","CUA_VibeCoding_02"]},
+  {label:"사업·전략 문서·기타",
+   items:["bizstrat","strategy","supernext","supernext-temp","vooster","vooster-ai-test","vooster-v2-mvp","worldwideview","CatchUpAI_VL","VL_for_AI4PKM_Automation_Features"]},
+  {label:"기계대조 추가 포크·미러",
+   items:["awesome-ai-tools","awesome-design-md","awesome-nano-banana-pro","skills","NaverFinnaceCrawal","cmux-windows","homebrew-cmux","cys-terminal-releases"]},
+];
 
 SECTORS.forEach(s => {
   const techCount = s.cl.reduce((n,ci)=>n+CLUSTERS[ci].repos.length, 0);
@@ -441,7 +468,7 @@ function openSector(s, trigger){
   document.getElementById('mTile').textContent = s.icon;
   document.getElementById('mNum').textContent = '섹터 · 개별 기술로 드릴인';
   document.getElementById('mTitle').textContent = s.title;
-  mBody.innerHTML = s.cl.map(ci => {
+  let html = s.cl.map(ci => {
     const c = CLUSTERS[ci];
     return `<div class="sector-cluster" data-ci="${ci}">
       <div class="sc-head">
@@ -449,9 +476,12 @@ function openSector(s, trigger){
         <div><div class="sc-t">${c.title}</div><div class="sc-o">${c.one}</div></div>
         <span class="sc-open">분석 열기 →</span>
       </div>
-      <div class="repos">${c.repos.map(r => `<span class="repo">${r}</span>`).join('')}</div>
+      <div class="repos">${c.repos.filter(r => !r.startsWith('+')).map(r => `<span class="repo">${r}</span>`).join('')}</div>
     </div>`;
-  }).join('') + `<div class="note-sm">기술 또는 「분석 열기」를 누르면 그 기술이 속한 상세 분석이 열립니다. 원본 전수조사 데이터는 그대로 보존돼 있어요.</div>`;
+  }).join('');
+  if (s.longtail) html += longtailHTML();
+  html += `<div class="note-sm">기술 또는 「분석 열기」를 누르면 그 기술이 속한 상세 분석이 열립니다. 원본 전수조사 데이터는 그대로 보존돼 있어요.</div>`;
+  mBody.innerHTML = html;
   mBody.querySelectorAll('.sector-cluster').forEach(el => {
     const ci = +el.dataset.ci;
     const go = () => openModal(CLUSTERS[ci], trigger);
@@ -483,6 +513,18 @@ function openModal(c, trigger){
   overlay.classList.add('open');
   document.body.style.overflow = 'hidden';
   document.getElementById('mClose').focus();
+}
+function longtailHTML(){
+  const total = LONGTAIL.reduce((n,g)=>n+g.items.length, 0);
+  return `<div class="lt-block">
+    <div class="lt-title">🗄️ 롱테일 원장 · 나머지 ${total}개 전량</div>
+    <div class="lt-note">GitHub 원본 171개를 하나도 안 빼놓았다는 증명. 대부분 학습·클론·포크라 도입대상은 아니고, ★ 그룹은 쓸모 있는 소품·원본입니다. 이름을 누르면 GitHub로 들어갑니다.</div>
+    ${LONGTAIL.map(g => `<div class="lt-group">
+      <div class="lt-label">${g.label} · ${g.items.length}</div>
+      ${g.note ? `<div class="lt-note">${g.note}</div>` : ''}
+      <div class="repos">${g.items.map(n => `<a class="repo" href="https://github.com/idoforgod/${n}" target="_blank" rel="noopener">${n}</a>`).join('')}</div>
+    </div>`).join('')}
+  </div>`;
 }
 function closeModal(){
   overlay.classList.remove('open');
