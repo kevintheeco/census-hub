@@ -188,6 +188,24 @@
     </div>
   </header>
 
+  <section class="sec tr-bnsec">
+    <button class="tr-bn" id="trBanner" aria-label="오늘의 기술 Top 10 열기">
+      <div class="tr-bn-l">
+        <div class="tr-bn-ic">🛰️</div>
+        <div>
+          <div class="tr-bn-eyebrow">매일 갱신 · 요나단 정찰 · <span id="trBnDate">2026-07-09</span></div>
+          <div class="tr-bn-title">오늘의 기술 <span>Top 10</span></div>
+          <p class="tr-bn-sub">GitHub 최전선에서 오늘 뜨는 스킬·프롬프트·도구. 저장/폐기로 우리 저장고를 키웁니다.</p>
+        </div>
+      </div>
+      <div class="tr-bn-r">
+        <span class="tr-bn-count"><b id="trBnCount">10</b><small>분류 대기</small></span>
+        <span class="tr-bn-open">펼쳐보기 →</span>
+      </div>
+    </button>
+    <div class="tr-bn-teaser" id="trBnTeaser"></div>
+  </section>
+
   <section class="sec">
     <div class="sec-h">
       <div>
@@ -207,15 +225,10 @@
     <div class="sec-h">
       <div>
         <h2>더 깊이 보기</h2>
-        <p>이미 만들어 둔 상세 자료들입니다. 팀 온보딩은 여기서 시작하세요.</p>
+        <p>도입 검토한 기술 지도와 실제 프롬프트 원문입니다.</p>
       </div>
     </div>
     <div class="links">
-      <a class="link" href="https://claude.ai/code/artifact/3d3cda0c-830a-459c-a111-5db02d8574b5" target="_blank" rel="noopener">
-        <div class="tile">🎓</div>
-        <div><h3>팀 온보딩 발표덱</h3><p>AI를 처음 접하는 팀원도 따라오는 17슬라이드. 개념부터 실제 설치까지.</p></div>
-        <div class="arr">↗</div>
-      </a>
       <a class="link" href="https://claude.ai/code/artifact/b9e04d3a-0151-4a17-93d8-dc447c0505f2" target="_blank" rel="noopener">
         <div class="tile">🗺️</div>
         <div><h3>도입기술 지도</h3><p>클러스터 0~6 기술을 카드로. 누르면 뜻·비유·장점·우리 활용이 모달로.</p></div>
@@ -224,11 +237,6 @@
       <a class="link" href="https://claude.ai/code/artifact/354824d8-9535-4d5b-bd04-200175b2b69d" target="_blank" rel="noopener">
         <div class="tile">🔐</div>
         <div><h3>프롬프트·스킬 금고</h3><p>KoGEO·TradingAgents 등 실제 프롬프트 원문을 버튼 하나로 복사.</p></div>
-        <div class="arr">↗</div>
-      </a>
-      <a class="link" href="https://claude.ai/code/artifact/ca0de509-8c72-48d0-9477-78e715b1c322" target="_blank" rel="noopener">
-        <div class="tile">🎤</div>
-        <div><h3>대표 발표 대본</h3><p>비유 중심 발표 대사 + 슬라이드별 설치 명령. 팀덱과 나란히 띄워 발표.</p></div>
         <div class="arr">↗</div>
       </a>
     </div>
@@ -446,16 +454,6 @@ tBtn.addEventListener('click', () => {
 <!-- 오늘의 기술 레이더 위젯 (2026-07-09 추가 · 기존 페이지 무변경 · tr- 접두사) -->
 <!-- ===================================================================== -->
 <style>
-  .tr-fab{position:fixed;right:22px;bottom:22px;z-index:200;display:inline-flex;align-items:center;gap:9px;
-    background:var(--accent);color:#fff;border:none;cursor:pointer;font-family:var(--font);font-weight:800;font-size:14.5px;
-    padding:13px 18px;border-radius:999px;box-shadow:0 8px 28px rgba(44,111,246,.42);transition:transform .18s ease,box-shadow .3s}
-  .tr-fab:hover{transform:translateY(-2px);box-shadow:0 12px 34px rgba(44,111,246,.5)}
-  .tr-fab:active{transform:scale(.97)}
-  .tr-fab .tr-sat{font-size:17px}
-  .tr-fab .tr-count{background:#fff;color:var(--accent-ink);font-size:12px;font-weight:800;min-width:20px;height:20px;
-    border-radius:999px;display:grid;place-items:center;padding:0 6px;font-variant-numeric:tabular-nums}
-  @media (max-width:560px){.tr-fab span.tr-lbl{display:none}}
-
   .tr-ov{position:fixed;inset:0;z-index:210;background:rgba(16,22,34,.55);backdrop-filter:blur(6px);
     display:flex;align-items:flex-end;justify-content:center;padding:0;opacity:0;pointer-events:none;transition:opacity .3s ease}
   .tr-ov.tr-open{opacity:1;pointer-events:auto}
@@ -513,11 +511,31 @@ tBtn.addEventListener('click', () => {
   @media (prefers-color-scheme:dark){.tr-b.discard:hover{background:#2B1618;color:#F16A6E}}
   .tr-empty{border:1px dashed var(--line);border-radius:14px;padding:26px;text-align:center;color:var(--faint);font-size:13.5px}
   .tr-hint{font-size:12px;color:var(--faint);text-align:center;padding:4px 0 2px}
-</style>
 
-<button class="tr-fab" id="trFab" aria-label="오늘의 기술 열기">
-  <span class="tr-sat">🛰️</span><span class="tr-lbl">오늘의 기술</span><span class="tr-count" id="trCount">10</span>
-</button>
+  /* 상단 큰 위젯 배너 */
+  .tr-bnsec{padding-top:28px}
+  .tr-bn{width:100%;text-align:left;font-family:var(--font);cursor:pointer;border:none;
+    display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;
+    background:linear-gradient(135deg,var(--accent),var(--accent-ink));color:#fff;
+    border-radius:26px;padding:26px 28px;box-shadow:0 10px 34px rgba(44,111,246,.34);
+    transition:transform .4s cubic-bezier(.32,.72,0,1),box-shadow .4s}
+  .tr-bn:hover{transform:translateY(-3px);box-shadow:0 16px 42px rgba(44,111,246,.44)}
+  .tr-bn:active{transform:scale(.995)}
+  .tr-bn-l{display:flex;align-items:center;gap:18px;min-width:0}
+  .tr-bn-ic{width:60px;height:60px;flex:none;border-radius:18px;background:rgba(255,255,255,.18);display:grid;place-items:center;font-size:31px}
+  .tr-bn-eyebrow{font-size:12.5px;font-weight:700;opacity:.9}
+  .tr-bn-title{font-size:clamp(22px,3.4vw,30px);font-weight:800;margin:3px 0 5px;letter-spacing:-.02em;color:#fff}
+  .tr-bn-title span{background:rgba(255,255,255,.22);padding:1px 11px;border-radius:999px;font-size:.62em;vertical-align:middle;font-weight:800}
+  .tr-bn-sub{margin:0;font-size:14px;opacity:.92;max-width:54ch;line-height:1.5}
+  .tr-bn-r{display:flex;align-items:center;gap:20px;flex:none}
+  .tr-bn-count{display:flex;flex-direction:column;align-items:center;line-height:1}
+  .tr-bn-count b{font-size:30px;font-weight:800;font-variant-numeric:tabular-nums}
+  .tr-bn-count small{font-size:11.5px;opacity:.9;margin-top:4px;font-weight:600}
+  .tr-bn-open{background:#fff;color:var(--accent-ink);font-weight:800;font-size:14px;padding:11px 18px;border-radius:999px;white-space:nowrap}
+  .tr-bn-teaser{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+  .tr-bn-tchip{font-size:12px;font-weight:700;color:var(--sub);background:var(--surface);border:1px solid var(--line);padding:6px 12px;border-radius:999px}
+  @media (max-width:640px){.tr-bn{padding:22px}.tr-bn-r{width:100%;justify-content:space-between}.tr-bn-sub{display:none}}
+</style>
 
 <div class="tr-ov" id="trOv" role="dialog" aria-modal="true" aria-label="오늘의 기술">
   <div class="tr-panel">
@@ -608,7 +626,8 @@ tBtn.addEventListener('click', () => {
 
   function render(){
     var pending=TODAY.items.filter(function(it){return !decisions[it.id]});
-    $('trCount').textContent=pending.length;
+    var bnC=$('trBnCount'); if(bnC) bnC.textContent=pending.length;
+    var tz=$('trBnTeaser'); if(tz){ tz.innerHTML=''; (pending.length?pending:TODAY.items).slice(0,3).forEach(function(it){var c=document.createElement('span');c.className='tr-bn-tchip';c.textContent=it.icon+' '+it.title;tz.appendChild(c);}); }
     $('trSavedN').textContent=savedLib.length;
     $('trDt').textContent=TODAY.date;
     var body=$('trBody'); body.innerHTML='';
@@ -634,7 +653,7 @@ tBtn.addEventListener('click', () => {
   function setTab(t){ tab=t; $('trTabToday').classList.toggle('tr-on',t==='today'); $('trTabSaved').classList.toggle('tr-on',t==='saved'); render(); }
   function open(){ $('trOv').classList.add('tr-open'); document.body.style.overflow='hidden'; }
   function close(){ $('trOv').classList.remove('tr-open'); document.body.style.overflow=''; }
-  $('trFab').addEventListener('click',open);
+  $('trBanner').addEventListener('click',open);
   $('trX').addEventListener('click',close);
   $('trOv').addEventListener('click',function(e){if(e.target===$('trOv'))close();});
   $('trTabToday').addEventListener('click',function(){setTab('today')});
